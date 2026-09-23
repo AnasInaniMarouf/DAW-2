@@ -1,15 +1,23 @@
-const mainHTML = document.getElementById("main1");
+let numItemsCarrito = document.getElementById("numItemsCarrito");
+let b1 = document.getElementById("b1");
 
-var newButtonMain = document.createElement("button");
-newButtonMain.innerHTML = "Hello Universe!";
-newButtonMain.style.backgroundColor = "pink";
-newButtonMain.style.border = "1px solid black";
-newButtonMain.style.borderRadius = "15px";
-newButtonMain.style.padding = "0.5%"
-newButtonMain.style.margin = "1%";
+var itemsCarrito;
 
-mainHTML.appendChild(newButtonMain);
+actualizaBoton();
 
-newButtonMain.addEventListener("click", () =>{
-    alert("Has pulsado el boton")
-});
+setInterval(() => {
+    
+    if (numItemsCarrito.value != itemsCarrito) {
+
+        actualizaBoton();
+    }
+
+}, 20);
+
+//---FUNCTIONS---//
+
+function actualizaBoton() {
+
+    itemsCarrito = numItemsCarrito.value;
+    b1.innerText = "Número de elementos en el carrito: " + itemsCarrito;
+}
