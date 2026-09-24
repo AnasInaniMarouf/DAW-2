@@ -1,23 +1,28 @@
-let numItemsCarrito = document.getElementById("numItemsCarrito");
-let b1 = document.getElementById("b1");
+let a = 5;
+var b = 10;
 
-var itemsCarrito;
+console.log("Valor de a: " + a + ". Valor de b: " + b);
+console.warn("Valor de a: " + a + ". Valor de b: " + b);
+console.error("Valor de a: " + a + ". Valor de b: " + b);
 
-actualizaBoton();
+if (a < 10) {
+    showParam(a);
+}
 
-setInterval(() => {
-    
-    if (numItemsCarrito.value != itemsCarrito) {
+var myObject = {
+    name: "Pepe",
+    surname: "Suarez",
+    age: 26
+}
 
-        actualizaBoton();
-    }
+console.dir("Tipo de myobject: " + typeof myObject);
+console.log(myObject);
+console.dir(myObject);
 
-}, 20);
 
 //---FUNCTIONS---//
 
-function actualizaBoton() {
-
-    itemsCarrito = numItemsCarrito.value;
-    b1.innerText = "Número de elementos en el carrito: " + itemsCarrito;
+function showParam(param) {
+    console.log("Valor de a es " + param);
+    
 }
