@@ -1,53 +1,88 @@
-let total = document.getElementById("total");
-let saldo = parseFloat(total.textContent);
+let total = document.getElementById("total"); //el numero que sale justo despues de saldo
+let saldo = parseFloat(total.textContent);  //como lo que coge del html es un texto, simplemente hago
+                                            //un parseFloat, float porque el saldo puede contener decimales
 //console.log(saldo);
 
-let bIngresar = document.getElementById("buttonI")
-let bRetirar = document.getElementById("buttonR")
+let bIngresar = document.getElementById("buttonI"); //boton de Ingresar
+let bRetirar = document.getElementById("buttonR");  //boton de Retirar
 
 //-----FUNCTIONS-----//
+/**
+ * Evento que se ejecuta cuando se pulsa el boton ingresar
+ */
 bIngresar.addEventListener("click", () => {
-    //console.log("Boton ingres0.ar pulsado");
-    validarIngreso();
+    console.log("Boton ingresar pulsado");
+    ingresar();
 });
 
+/**
+ * Evento que se ejecuta cuando se pulsa el boton retirar
+ */
 bRetirar.addEventListener("click", () => {
-    //console.log("Boton retirar pulsado");
-    validarRetirada();
+    console.log("Boton retirar pulsado");
+    retirar();
 });
 
+/**
+ * Funcion que va actualizando el numero del saldo a medida
+ * que se vaya ingresando o retirando cierta cantidad
+ * 
+ * @param cantidad La cantidad que se sumara al saldo (puede
+ * ser positiva o negativa, si es un ingreso entonces le llegara
+ * una cantidad positiva, por lo cual se sumara al saldo,
+ * pero si es retirada le llegara una cantidad negativa, asi
+ * se restara esa cantidad al saldo total)
+ */
 function actualizaSaldo(cantidad) {
     saldo += cantidad;
     total.innerText = saldo;
 }
 
-function validarIngreso() {
-    let ingreso = parseInt(document.getElementById("inputI").value);
-
-    if(ingreso < 0) {
-
-        alert("La cantidad ingresada no puede ser menor a 0");
-
-    } else {
-
-        actualizaSaldo(ingreso);
-    }
+/**
+ * Funcion que llama a otra funcion validar(), y le envia el id
+ * del input de texto para mas tarde obtener la cantidad que el
+ * usuario quiera ingresar
+ */
+function ingresar() {
+    validar("inputI", false);
 }
 
-function validarRetirada() {
-    let retirada = parseInt(document.getElementById("inputR").value);
-    console.log(retirada);
-    
-    if(retirada < 0) {
+/**
+ * Funcion que llama a otra funcion validar(), y le envia el id
+ * del input de texto para mas tarde obtener la cantidad que el
+ * usuario quiera retirar
+ */
+function retirar() {
+    validar("inputR", true)
+}
 
-        alert("La cantidad retirada no puede ser menor a 0");
+/**
+ * Funcion que valida si se puede realizar el ingreso o la retirada,
+ * si todo esta correcto llama a la funcion actualizaSaldo()
+ * 
+ * @param tipoInput Parametro tipo String, para saber sobre que
+ *                      input trabajar
+ * @param esRetirada Parametro tipo boolean, sirve para saber
+*                       si actuar como un ingreso (false)
+*                       o una retirada (true)
+ */
+function validar(tipoInput, esRetirada) {
 
-    } else if(retirada > saldo) {
+    let cantidad = parseFloat(document.getElementById(tipoInput).value);    //variable que obtiene la cantidad que el usuario ha puesto en el input
 
-        alert("La cantidad retirada no puede ser mayor al saldo")
+    if (cantidad < 0) {
+        alert("La cantidad no puede ser menor a 0");
+        console.error("La cantidad no puede ser menor a 0");
 
-    } else {
+    } else {    //cantidad mayor o igual a 0
 
-        actualizaSaldo(-retirada);
+        if (esRetirada) {   //Retirada
+
+            if (cantidad > saldo) {
+                throw new Error("La cantidad retirada no puede ser mayor al saldo");
+
+            } else actualizaSaldo(-cantidad);   //cantidad es menor que el saldo
+
+        } else actualizaSaldo(cantidad);    //Ingreso
     }
 }
